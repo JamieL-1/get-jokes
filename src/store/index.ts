@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import urlParamsReducer from '../features/urlParams/urlParamsSlice'
+import jokesReducer from '../reducers/jokes/jokesSlice'
 
 export const store = configureStore({
 	reducer: {
-		urlParams: urlParamsReducer,
+		jokes: jokesReducer,
 	},
 })
 

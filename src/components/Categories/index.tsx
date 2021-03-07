@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { selectSearch, setFilters } from '../../features/urlParams/urlParamsSlice'
+import { selectSearch, setFilters } from '../../reducers/jokes/jokesSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getJokeInfo } from '../../api/api';
 import { SUCCESS } from '../../utils/constants';

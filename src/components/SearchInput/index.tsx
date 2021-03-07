@@ -7,7 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import { useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFilters, setSearch } from '../../features/urlParams/urlParamsSlice';
+import { selectFilters, setSearch } from '../../reducers/jokes/jokesSlice';
 import { SUCCESS } from '../../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({

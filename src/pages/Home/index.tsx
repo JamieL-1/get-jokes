@@ -29,13 +29,13 @@ function App() {
 
 	return (
 		<>
-			<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+			<div>
 				<Typography variant="h3">Get Jokes</Typography>
 				{jokeInfo.status === 'loading' && (
 					<Skeleton width={170} height={56} />
 				)}
 				{jokeInfo.status === 'success' && (
-					<Typography variant="h6">{`Available Jokes: ${jokeInfo?.data?.jokes?.totalCount}`}</Typography>
+					<Typography variant="h6" component="h4">{`Available Jokes: ${jokeInfo?.data?.jokes?.totalCount}`}</Typography>
 				)}
 			</div>
 			<div style={{ margin: '10px 0px' }}>

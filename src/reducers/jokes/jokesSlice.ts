@@ -2,18 +2,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-interface urlParamsState {
+interface jokesState {
 	filters: string;
 	search: string;
 }
 
-const initialState: urlParamsState = {
+const initialState: jokesState = {
 	filters: 'Any',
 	search: '',
 };
 
-export const urlParamsSlice = createSlice({
-	name: 'urlParams',
+export const jokesSlice = createSlice({
+	name: 'jokes',
 	initialState,
 	reducers: {
 		setFilters: (state, action: PayloadAction<string>) => {
@@ -25,9 +25,9 @@ export const urlParamsSlice = createSlice({
 	},
 });
 
-export const { setFilters, setSearch } = urlParamsSlice.actions;
+export const { setFilters, setSearch } = jokesSlice.actions;
 
-export const selectFilters = (state: RootState) => state.urlParams.filters;
-export const selectSearch = (state: RootState) => state.urlParams.search
+export const selectFilters = (state: RootState) => state.jokes.filters;
+export const selectSearch = (state: RootState) => state.jokes.search
 
-export default urlParamsSlice.reducer;
+export default jokesSlice.reducer;
