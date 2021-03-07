@@ -4,7 +4,7 @@ import {
 } from 'react-query';
 import axios from 'axios';
 import {
-	Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel,
+	Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, makeStyles,
 } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { Skeleton } from '@material-ui/lab';
@@ -19,9 +19,21 @@ interface iState {
 	[key: string]: boolean;
 }
 
+const useStyles = makeStyles({
+	formGroup: {
+		flexDirection: 'row',
+	},
+	container: {
+		padding: 5,
+		margin: '15px 0px',
+		width: '100%',
+	},
+});
+
 function Categories() {
 	const dispatch = useAppDispatch()
 	const search = useAppSelector(selectSearch)
+	const classes = useStyles();
 
 	// Need to define default value for controlled components
 	const [categories, setCategories] = useState<iState>({
@@ -79,11 +91,11 @@ function Categories() {
 	const jokeInfo = useQuery('jokesInfo', getJokeInfo)
 
 	return (
-		<FormControl component="fieldset" style={{ padding: 5, margin: '15px 0px', width: '100%' }}>
+		<FormControl component="fieldset" className={classes.container}>
 			<FormLabel component="legend">Select category / categories</FormLabel>
-			<FormGroup style={{ flexDirection: 'row' }}>
+			<FormGroup className={classes.formGroup}>
 				{jokeInfo.status === 'loading' && (
-					<Skeleton width="100%" />
+					<Skeleton width="100%" height={42} />
 				)}
 				{jokeInfo.status === 'error' && (
 					<div>Error fetching data</div>

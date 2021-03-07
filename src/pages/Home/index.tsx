@@ -2,14 +2,33 @@ import {
 	useQuery,
 } from 'react-query';
 import axios from 'axios';
-import { Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import JokeCard from '../../components/JokeCard';
 import Categories from '../../components/Categories';
 import SearchInput from '../../components/SearchInput'
 import { getJokeInfo } from '../../api/api';
 
+interface JokesAPI {
+	id: number;
+	setup: string;
+	delivery: string;
+	punchline: string;
+	joke: string
+	type: string;
+	category: string;
+	isFetching: boolean;
+}
+
+const useStyles = makeStyles({
+	textContainer: {
+		margin: '15px 0px',
+	},
+});
+
 function App() {
+	const classes = useStyles()
+
 	const getJoke = async () => {
 		const { data } = await axios.get(
 			'https://v2.jokeapi.dev/joke/Any?safe-mode&amount=10',
@@ -38,15 +57,12 @@ function App() {
 					<Typography variant="h6" component="h4">{`Available Jokes: ${jokeInfo?.data?.jokes?.totalCount}`}</Typography>
 				)}
 			</div>
-			<div style={{ margin: '10px 0px' }}>
+			<div className={classes.textContainer}>
 				<Typography color="textSecondary">Welcome to, Get Jokes. To search for a joke just type into the search bar.</Typography>
 				<Typography color="textSecondary">You&apos;re also able to filter by as many categories as you wish by clicking the checkboxes.</Typography>
 			</div>
 			<SearchInput />
-			<div style={{ display: 'flex' }}>
-				<Categories />
-			</div>
-
+			<Categories />
 			{jokes.status === 'loading' && (
 				tempData.map((id: number) => (
 					<div key={id}>
@@ -66,7 +82,7 @@ function App() {
 			{jokes.status === 'success' && (
 				jokes.data?.error
 					? <h2>{jokes.data.additionalInfo}</h2>
-					: (jokes.data?.jokes.map((joke: any) => (
+					: (jokes.data?.jokes.map((joke: JokesAPI) => (
 						<div key={joke.id}>
 							<div style={{ padding: 5 }}>
 								<JokeCard
