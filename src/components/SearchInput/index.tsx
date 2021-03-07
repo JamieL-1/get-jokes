@@ -37,7 +37,7 @@ export default function SearchInput() {
 
 	const getJoke = async () => {
 		const { data, status } = await axios.get(
-			`https://v2.jokeapi.dev/joke/${filters}?contains=${searchValue}&safe-mode&amount=10`,
+			`https://v2.jokeapi.dev/joke/${filters}?safe-mode&amount=10&contains=${searchValue}`,
 		)
 
 		if (status === SUCCESS) {
