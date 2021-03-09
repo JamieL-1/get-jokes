@@ -1,3 +1,5 @@
+Project based upon https://jokeapi.dev/
+
 ## Live version
 https://get-jokes.netlify.app/
 
