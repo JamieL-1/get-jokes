@@ -30,6 +30,16 @@ const useStyles = makeStyles({
 	},
 });
 
+const selectedCategories = (categories: iState) => {
+	let tempSelectedCategories = ''
+	Object.keys(categories).forEach((category: string) => {
+		if (categories[category]) {
+			tempSelectedCategories += `${category},`
+		}
+	})
+	return tempSelectedCategories.slice(0, -1)
+}
+
 function Categories() {
 	const dispatch = useAppDispatch()
 	const search = useAppSelector(selectSearch)
@@ -48,19 +58,12 @@ function Categories() {
 	const init = useRef<boolean>(false)
 
 	const getJokes = async () => {
-		let selectedCategories = ''
-		Object.keys(categories).forEach((category: string) => {
-			if (categories[category]) {
-				selectedCategories += `${category},`
-			}
-		})
-
 		const { data, status } = await axios.get(
-			`https://v2.jokeapi.dev/joke/${selectedCategories.slice(0, -1) || 'Any'}?safe-mode&amount=10${search}`,
+			`https://v2.jokeapi.dev/joke/${selectedCategories(categories) || 'Any'}?safe-mode&amount=10${search}`,
 		)
 
 		if (status === SUCCESS) {
-			dispatch(setFilters(selectedCategories.slice(0, -1) || 'Any'))
+			dispatch(setFilters(selectedCategories(categories) || 'Any'))
 		}
 
 		return data
@@ -70,13 +73,7 @@ function Categories() {
 
 	const categoryOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setCategories((prevCategories: iState) => ({ ...prevCategories, [e.target.name]: e.target.checked }))
-		let selectedCategories = ''
-		Object.keys(categories).forEach((category: string) => {
-			if (categories[category]) {
-				selectedCategories += `${category},`
-			}
-		})
-		dispatch(setFilters(selectedCategories.slice(0, -1) || 'Any'))
+		dispatch(setFilters(selectedCategories(categories) || 'Any'))
 	}
 
 	const getNewJoke = async () => queryClient.fetchQuery('jokes', getJokes)
