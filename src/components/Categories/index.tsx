@@ -12,12 +12,7 @@ import { selectSearch, setFilters } from '../../reducers/jokes/jokesSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getJokeInfo } from '../../api/api';
 import { SUCCESS } from '../../utils/constants';
-
-// Rather than defining each state value as all the values are boolean
-// just define the key as string so we can object keys/foreach over it
-interface iState {
-	[key: string]: boolean;
-}
+import { iState } from '../../utils';
 
 const useStyles = makeStyles({
 	formGroup: {
@@ -29,16 +24,6 @@ const useStyles = makeStyles({
 		width: '100%',
 	},
 });
-
-const selectedCategories = (categories: iState) => {
-	let tempSelectedCategories = ''
-	Object.keys(categories).forEach((category: string) => {
-		if (categories[category]) {
-			tempSelectedCategories += `${category},`
-		}
-	})
-	return tempSelectedCategories.slice(0, -1)
-}
 
 function Categories() {
 	const dispatch = useAppDispatch()
@@ -58,6 +43,7 @@ function Categories() {
 	const init = useRef<boolean>(false)
 
 	const getJokes = async () => {
+		const { selectedCategories } = await import('../../utils')
 		const { data, status } = await axios.get(
 			`https://v2.jokeapi.dev/joke/${selectedCategories(categories) || 'Any'}?safe-mode&amount=10${search}`,
 		)
@@ -71,9 +57,10 @@ function Categories() {
 
 	const queryClient = useQueryClient()
 
-	const categoryOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const categoryOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		setCategories((prevCategories: iState) => ({ ...prevCategories, [e.target.name]: e.target.checked }))
-		dispatch(setFilters(selectedCategories(categories) || 'Any'))
+		const { selectedCategories } = await import('../../utils')
+		await dispatch(setFilters(selectedCategories(categories) || 'Any'))
 	}
 
 	const getNewJoke = async () => queryClient.fetchQuery('jokes', getJokes)
